@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://portfolio.josephdavidbishop.com/fitness-calculator/",
+  "homepage": "https://NeoBaneling.github.io/fitness-calculator/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
