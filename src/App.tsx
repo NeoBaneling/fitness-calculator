@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { calculateScore, initialValues } from './form/initialValues';
+import LayoutContainer from './layout/LayoutContainer';
+import { Formik } from 'formik';
+import Typography from '@mui/material/Typography';
+import DayFields from './form/DayFields';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import ScoreView from './score/ScoreView';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currDay, setCurrDay] = useState(0);
+  const [score, setScore] = useState(0);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  const isLastDay = currDay === 6;
+
+  return score ? (
+    <ScoreView
+      score={score}
+      reset={() => {
+        setScore(0);
+        setCurrDay(0);
+      }}
+    />
+  ) : (
+    <LayoutContainer>
+      <Typography variant="h1">Fitness Calculator 💪</Typography>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values) => setScore(calculateScore(values))}
+      >
+        {({ handleSubmit }) => (
+          <>
+            <DayFields day={currDay} />
+            <Stack
+              direction="row"
+              alignItems="flex-start"
+              justifyContent="space-between"
+              sx={{ width: '100%' }}
+            >
+              <Button
+                disabled={!currDay}
+                onClick={() => setCurrDay(currDay - 1)}
+                variant="contained"
+              >
+                Go back
+              </Button>
+              <Button
+                onClick={() => {
+                  isLastDay ? handleSubmit() : setCurrDay(currDay + 1);
+                }}
+                variant="contained"
+              >
+                {isLastDay ? 'Submit' : 'Next'}
+              </Button>
+            </Stack>
+          </>
+        )}
+      </Formik>
+    </LayoutContainer>
+  );
 }
 
-export default App
+export default App;
