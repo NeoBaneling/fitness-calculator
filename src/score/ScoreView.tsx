@@ -1,55 +1,26 @@
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import { useEffect, useState } from 'react';
+import { useLocalStore } from '../database/useLocalStore';
 
-const ScoreView = ({ score, reset }: { score: number; reset: () => void }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    let timeout = undefined;
-    if (isOpen) timeout = setTimeout(() => setIsOpen(false), 3000);
-    return () => clearTimeout(timeout);
-  }, [isOpen]);
+const ScoreView = ({ openForm }: { openForm: () => void }) => {
+  const { score } = useLocalStore();
 
   return (
     <>
       <Stack
         alignItems="center"
         justifyContent="center"
-        spacing={2}
+        spacing={4}
         paddingBottom={6}
       >
-        <Typography variant="h2">You earned</Typography>
-        <Tooltip
-          open={isOpen}
-          title="Copied to clipboard!"
-          disableFocusListener
-          disableHoverListener
-          disableTouchListener
-        >
-          <Button
-            onClick={() => {
-              navigator.clipboard.writeText(`${score}`);
-              setIsOpen(true);
-            }}
-          >
-            <Typography variant="h1" paddingX={8}>
-              {score}
-            </Typography>
-          </Button>
-        </Tooltip>
-      </Stack>
-      <Stack
-        direction="column"
-        alignItems="flex-start"
-        justifyContent="flex-start"
-        spacing={4}
-        paddingX={2}
-      >
-        <Button onClick={reset} variant="contained">
-          Calculate Again
+        <Typography variant="h2">Total score 🏆</Typography>
+
+        <Typography variant="h1" paddingX={8}>
+          {score}
+        </Typography>
+        <Button onClick={openForm} variant="contained">
+          Add to the fitness bank
         </Button>
       </Stack>
     </>
