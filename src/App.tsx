@@ -8,27 +8,25 @@ import DayFields from './form/DayFields';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import ScoreView from './score/ScoreView';
+import { useLocalStore } from './database/useLocalStore';
 
 function App() {
+  const { addToScore } = useLocalStore();
+
   const [currDay, setCurrDay] = useState(0);
-  const [score, setScore] = useState(0);
+  const [formActive, setFormActive] = useState(false);
 
   const isLastDay = currDay === 6;
 
-  return score ? (
-    <ScoreView
-      score={score}
-      reset={() => {
-        setScore(0);
-        setCurrDay(0);
-      }}
-    />
-  ) : (
+  return formActive ? (
     <LayoutContainer>
       <Typography variant="h1">Fitness Calculator 💪</Typography>
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => setScore(calculateScore(values))}
+        onSubmit={(values) => {
+          addToScore(calculateScore(values));
+          setFormActive(false);
+        }}
       >
         {({ handleSubmit }) => (
           <>
@@ -59,6 +57,13 @@ function App() {
         )}
       </Formik>
     </LayoutContainer>
+  ) : (
+    <ScoreView
+      openForm={() => {
+        setFormActive(true);
+        setCurrDay(0);
+      }}
+    />
   );
 }
 
