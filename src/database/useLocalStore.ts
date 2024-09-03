@@ -7,8 +7,9 @@ export const useLocalStore = () => {
     localStorage.setItem(key, newScore.toString());
 
   const addToScore = (acc: number) => setScore(score + acc);
+  const removeFromScore = (acc: number) => setScore(score - acc);
 
   const resetScore = () => localStorage.removeItem(key);
 
-  return { addToScore, resetScore, score, setScore };
+  return { addToScore, removeFromScore, resetScore, score, setScore };
 };
