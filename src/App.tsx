@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { calculateScore, initialValues } from './form/initialValues';
+import { initialValues } from './form/initialValues';
+import { calculateScore } from './form/helpers';
 import LayoutContainer from './layout/LayoutContainer';
 import { Formik } from 'formik';
 import Typography from '@mui/material/Typography';
