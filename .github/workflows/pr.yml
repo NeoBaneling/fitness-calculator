@@ -5,15 +5,19 @@ on:
     branches: [main]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+  validate:
+    runs-on: ubuntu_latest
     steps:
-      - uses: ./setup.yml
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
       - name: Lint
         run: npm run lint
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ./setup.yml
       - name: Build
         run: npm run build
