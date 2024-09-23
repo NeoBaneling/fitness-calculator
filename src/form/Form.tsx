@@ -44,9 +44,9 @@ const Form = () => {
                 Go back
               </Button>
               <Button
-                onClick={() => {
-                  isLastDay ? handleSubmit() : setCurrDay(currDay + 1);
-                }}
+                onClick={() =>
+                  isLastDay ? handleSubmit() : setCurrDay(currDay + 1)
+                }
                 variant="contained"
               >
                 {isLastDay ? 'Submit' : 'Next'}
