@@ -2,6 +2,7 @@ import Typography from '@mui/material/Typography';
 import { getDayText } from './helpers';
 import { useField } from 'formik';
 import FormField from './FormField';
+import { useEffect } from 'react';
 
 const DayFields = ({ day }: { day: number }) => {
   const field = (name: string) => `[${day}].${name}`;
@@ -10,6 +11,18 @@ const DayFields = ({ day }: { day: number }) => {
     name: field('closedRings'),
     type: 'checkbox',
   });
+
+  const [{ checked: closedExerciseRing }, , { setValue: setExercise }] =
+    useField({
+      name: field('closedExerciseRing'),
+      type: 'checkbox',
+    });
+
+  useEffect(() => {
+    if (closedAllRings && closedExerciseRing) {
+      setExercise(false);
+    }
+  }, [closedAllRings, closedExerciseRing]);
 
   return (
     <>
